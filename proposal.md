@@ -16,7 +16,7 @@ These are from the [New York Standards for 4th Graders](http://www.p12.nysed.gov
 
 ## 2-liner description of the project?
 
-Our game will be similar to the traditional snake game where you eat the blocks to get longer and can't run into yourself. Instead of just eating the block you have to be able to successfully solve the multiplication problem under a time limit to win it.
+Our game will be similar to the traditional snake game where you eat the blocks to get longer and can't run into yourself. For the eating mechanic, a multiplication problem will be placed on screen and multiple solutions will pop up with there being one or a few right answers based on difficulty, and eating the right one will award points and length, while the opposite will take away points and length.
 
 
 ## What will each team member's role be?
