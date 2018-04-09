@@ -46,36 +46,7 @@ class Example(Activity):
         # Add grid to Sugar Activity GtkWindow
         self.set_canvas(grid)
 
-        # Create & Add Label
-        label = Gtk.Label(label=_("Name: "))
-        grid.attach(label, 0, 0, 1, 1)
-
-        # Add Output Label
-        output = Gtk.Label()
-        grid.attach(output, 1, 1, 1, 1)
-
-        # Create & Add Text Entry
-        entry = Gtk.Entry()
-        grid.attach(entry, 0, 1, 1, 1)
-
-        # Empty output on keypress in entry
-        entry.connect('key-release-event', self.emptyout, output)
-
-        # Add a button
-        button = Gtk.Button(label=_("Greet!"))
-        grid.attach(button, 0, 2, 1, 1)
-
-        # Tell the button to run a class method
-        button.connect('clicked', self.greeter, entry, output)
-
         # Show all components (otherwise none will be displayed)
         self.show_all()
 
-    def greeter(self, button, entry, output):
-        if len(entry.get_text()) > 0:
-            output.set_text("Hello " + entry.get_text() + "!")
-        else:
-            output.set_text("Please entry your name.")
-
-    def emptyout(self, entry, event, output):
-        output.set_text("")
+        #TODO launch the game inside our window
