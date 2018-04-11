@@ -3,7 +3,7 @@
 # import statements
 
 """
-class exampleActivity(activity.Activity):
+class snakeActivity(activity.Activity):
 
 """
 
@@ -19,7 +19,7 @@ from gi.repository import Gtk
 from gettext import gettext as _
 
 
-class Example(Activity):
+class snakeActivity(activity.Activity):
     def __init__(self, sugar_handle):
         Activity.__init__(self, sugar_handle)
 
@@ -50,3 +50,4 @@ class Example(Activity):
         self.show_all()
 
         #TODO launch the game inside our window
+
