@@ -70,14 +70,12 @@ class snakeActivity(activity.Activity):
         grid = Gtk.Grid()
 
         # Add grid to Sugar Activity GtkWindow
-        self.set_canvas(grid)
+        self.set_canvas(mainGame.gameDisplay)
 
         # Show all components (otherwise none will be displayed)
         self.show_all()
 
 def main():
-    pygame.init()
-    pygame.display.set_mode((pygame.display.Info().current_w, pygame.display.Info().current_h),pygame.RESIZEABLE) # autodetect screen resolution
     game = mainGame.main()
     game()
 

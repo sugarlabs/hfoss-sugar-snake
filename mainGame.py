@@ -50,7 +50,8 @@ assets = path.join(path.dirname(__file__), 'assets')
 sound_folder = path.join(path.dirname(__file__), 'sounds')
 
 # game display changed
-gameDisplay = pygame.display.set_mode((display_width, display_height))
+gameDisplay = pygame.display.set_mode((pygame.display.Info().current_w, pygame.display.Info().current_h)) # autodetect screen resolution
+
 
 # image loading for both apple and snake
 snakeimg = pygame.image.load(path.join(assets + '/snake.png'))
