@@ -42,6 +42,13 @@ from sugar3.activity.widgets import ActivityButton
 from gi.repository import Gtk
 from gettext import gettext as _
 
+#game imports
+import pygame
+import time
+import random
+from os import path
+
+
 
 class snakeActivity(activity.Activity):
     def __init__(self, sugar_handle):
@@ -72,12 +79,6 @@ class snakeActivity(activity.Activity):
 
         # Show all components (otherwise none will be displayed)
         self.show_all()
-# import library here
-import pygame
-import time
-import random
-from os import path
-
 # contant value initialised
 white = (255,255,255)
 black = (0,0,0)
