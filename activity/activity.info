@@ -2,7 +2,7 @@
 name = hfoss-snake
 bundle_id = hfoss-snake.laptop.org
 icon = exampleicon
-exec = sugar-activity mainPlaked.Activity
+exec = sugar-activity snakeActivity.snakeActivity
 show_launcher = yes
 activity_version = 1
 license = GPLv2+
