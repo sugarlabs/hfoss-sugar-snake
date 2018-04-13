@@ -66,11 +66,9 @@ class snakeActivity(activity.Activity):
         # Add Stop Button
         toolbar.insert(StopButton(self), -1)
 
+        self.game = mainGame.main()
         # Create Container
-        grid = Gtk.Grid()
-
-        # Add grid to Sugar Activity GtkWindow
-        self.set_canvas(mainGame.gameDisplay)
+        self.game.canvas = self._pygamecanvas = sugargame.canvas.PygameCanvas(self, main=self.game.run, modules=[pygame.display, pygame.font])
 
         # Show all components (otherwise none will be displayed)
         self.show_all()
