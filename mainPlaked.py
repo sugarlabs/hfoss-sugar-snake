@@ -310,5 +310,6 @@ def gameLoop():
 	quit()
 
 # # this fuction kicks-off everything 
-start_screen()
-gameLoop()
+def main():
+    start_screen()
+    gameLoop()

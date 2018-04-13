@@ -50,4 +50,4 @@ class snakeActivity(activity.Activity):
         self.show_all()
 
         #TODO launch the game inside our window
-
+        mainPlaked.main()
