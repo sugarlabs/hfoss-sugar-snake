@@ -77,7 +77,7 @@ class snakeActivity(activity.Activity):
 
 def main():
     pygame.init()
-    pygame.display.set_mode((1200,900), pygame.RESIZABLE) # 1200,900 is the XO's screen resolution.
+    pygame.display.set_mode((pygame.display.Info().current_w, pygame.display.Info().current_h),pygame.RESIZEABLE) # autodetect screen resolution
     game = mainGame.main()
     game()
 
