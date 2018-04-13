@@ -1,12 +1,29 @@
 # -*- coding: utf-8 -*-
-# @Author: Amar Prakash Pandey
-# @Date:   2016-06-04
-# @Email:  amar.om1994@gmail.com  
-# @Github username: @amarlearning
-# @Last Modified by: Amar Prakash Pandey  
-# @Last Modified date: 2016-07-18
-# MIT License. You can find a copy of the License
-# @http://amarlearning.mit-license.org
+# MIT License
+# 
+# Copyright (c) 2016 Amar Prakash Pandey
+# Copyright (c) 2018 Aidan Kahrs
+# Copyright (c) 2018 Regina Locicero
+# Copyright (c) 2018 Calvin Wu
+# Copyright (c) 2018 Quintin Reed
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 # import library here
 import pygame
@@ -313,3 +330,5 @@ def gameLoop():
 def main():
     start_screen()
     gameLoop()
+
+main()
