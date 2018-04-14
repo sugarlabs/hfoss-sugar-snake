@@ -36,7 +36,7 @@ class snakeActivity(activity.Activity):
 from sugar3.activity.activity import Activity
 from sugar3.activity.widgets import StopButton
 from sugar3.activity.widgets import ActivityButton
-
+from sugargame import *
 
 # Gtk Import
 from gi.repository import Gtk

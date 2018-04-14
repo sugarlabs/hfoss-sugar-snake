@@ -30,6 +30,7 @@ import pygame
 import time
 import random
 from os import path
+from gi.repository import Gtk
 
 # contant value initialised
 white = (255,255,255)
