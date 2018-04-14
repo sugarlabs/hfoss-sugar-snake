@@ -151,7 +151,7 @@ class snakeClass:
     
     
     # game starts here
-    def run():
+    def run(self):
         # global variable direction
         global direction
         global isDead
@@ -170,7 +170,7 @@ class snakeClass:
         snakeList = []
         snakeLength = 1
     
-        randomFruitX, randomFruitY = randomAppleGen()
+        randomFruitX, randomFruitY = self.randomAppleGen()
     
         start_x = display_width/2
         start_y = display_height/2
@@ -185,7 +185,7 @@ class snakeClass:
     
                 while gameOver == True :
                     gameDisplay.fill(white)
-                    message_to_display("Game Over", red, -70, "large")
+                    self.message_to_display("Game Over", red, -70, "large")
                     text = smallfont.render("Your final score is : " + str(snakeLength), True, black)
                     gameDisplay.blit(text, [300,300])
                     
@@ -199,8 +199,6 @@ class snakeClass:
                             if event.key == pygame.K_q:
                                 gameExit = True
                                 gameOver = False
-                            if event.key == pygame.K_c:
-                                gameLoop()
     
             for event in pygame.event.get():
                 if event.type  == pygame.QUIT:
@@ -240,27 +238,27 @@ class snakeClass:
             if len(snakeList) > snakeLength:
                 del snakeList[0]
     
-            score(snakeLength - 1)
+            self.score(snakeLength - 1)
     
-            snake(block, snakeList)
+            self.snake(block, snakeList)
             pygame.display.update()
     
             # to see if snake has eaten himself or not
             for eachSegment in snakeList[:-1]:
                 if eachSegment == snakeHead:
                     isDead = True
-                    snake(block, snakeList)
+                    self.snake(block, snakeList)
                     pygame.time.delay(1000)
                     gameOver = True
     
             if start_x > randomFruitX and start_x < randomFruitX + appleSize or start_x + block > randomFruitX and start_x + block < randomFruitX + appleSize:
                 if start_y > randomFruitY and start_y < randomFruitY + appleSize:
-                    randomFruitX, randomFruitY = randomAppleGen()
+                    randomFruitX, randomFruitY = self.randomAppleGen()
                     snakeLength += 1 
                     menu_song = pygame.mixer.music.load(path.join(sound_folder, "wakka.ogg"))
                     pygame.mixer.music.play(0)
                 if start_y + block > randomFruitY and start_y + block < randomFruitY + appleSize:
-                    randomFruitX, randomFruitY = randomAppleGen()
+                    randomFruitX, randomFruitY = self.randomAppleGen()
                     snakeLength += 1 
                     menu_song = pygame.mixer.music.load(path.join(sound_folder, "wakka.ogg"))
                     pygame.mixer.music.play(0)
