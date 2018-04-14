@@ -30,6 +30,8 @@ import pygame
 import time
 import random
 from os import path
+import gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 class snakeClass:
@@ -48,8 +50,8 @@ class snakeClass:
         
         
         # path for the image folder
-        self.assets = path.join(path.dirname(__file__), 'assets')
-        self.sound_folder = path.join(path.dirname(__file__), 'sounds')
+        assets = path.join(path.dirname(__file__), 'assets')
+        sound_folder = path.join(path.dirname(__file__), 'sounds')
         
         
         
@@ -59,7 +61,6 @@ class snakeClass:
         self.snaketail = pygame.image.load(path.join(assets + '/tail.png'))
         self.gameicon = pygame.image.load(path.join(assets + '/gameicon.png'))
         self.appleimg = pygame.image.load(path.join(assets + '/apple.png'))
-        self.coverimg = pygame.transform.scale(coverimg,(800,600))
         
         # moving block size
         self.block = 20
@@ -280,5 +281,6 @@ def main():
     game = snakeClass()
     game.run()
 
-main()
+if __name__ == '__main__':
+    main()
 
