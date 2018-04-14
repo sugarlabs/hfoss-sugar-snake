@@ -1,81 +1,101 @@
-# -*- coding: utf-8 -*-
-# MIT License
-# 
-# Copyright (c) 2016 Amar Prakash Pandey
-# Copyright (c) 2018 Aidan Kahrs
-# Copyright (c) 2018 Regina Locicero
-# Copyright (c) 2018 Calvin Wu
-# Copyright (c) 2018 Quintin Reed
-# 
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-# 
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-# 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
-
-"""
-class snakeActivity(activity.Activity):
-
-"""
-
-
-# Sugar Imports
-from sugar3.activity.activity import Activity
-from sugar3.activity.widgets import StopButton
-from sugar3.activity.widgets import ActivityButton
-from sugargame import *
-
-# Gtk Import
-from gi.repository import Gtk
 from gettext import gettext as _
 
-# import the game
+import sys
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
+import pygame
+
+from sugar3.activity.activity import Activity
+from sugar3.graphics.toolbarbox import ToolbarBox
+from sugar3.activity.widgets import ActivityToolbarButton
+from sugar3.graphics.toolbutton import ToolButton
+from sugar3.activity.widgets import StopButton
+
+
+sys.path.append('..')  # Import sugargame package from top directory.
+import sugargame.canvas
+
 import mainGame
 
-class snakeActivity(activity.Activity):
-    def __init__(self, sugar_handle):
-        Activity.__init__(self, sugar_handle)
 
-        # Create a Toolbar
-        toolbar = Gtk.Toolbar()
+class snakeActivity(Activity):
+    def __init__(self, handle):
+        Activity.__init__(self, handle)
 
-        # Add toolbar to Sugar Activity Toolbar Space
-        self.set_toolbar_box(toolbar)
+        self.paused = False
 
-        # Add Activity Button
-        toolbar.insert(ActivityButton(self), -1)
+        # Create the game instance.
+        self.game = mainGame.snakeClass()
 
-        # Create & Add Separator
-        separator = Gtk.SeparatorToolItem(draw=False)
+        # Build the activity toolbar.
+        self.build_toolbar()
+
+        # Build the Pygame canvas and start the game running
+        # (self.game.run is called when the activity constructor
+        # returns).
+        self._pygamecanvas = sugargame.canvas.PygameCanvas(self,
+            main=self.game.run,
+            modules=[pygame.display])
+
+        # Note that set_canvas implicitly calls read_file when
+        # resuming from the Journal.
+        self.set_canvas(self._pygamecanvas)
+        self._pygamecanvas.grab_focus()
+
+    def build_toolbar(self):
+        toolbar_box = ToolbarBox()
+        self.set_toolbar_box(toolbar_box)
+        toolbar_box.show()
+
+        activity_button = ActivityToolbarButton(self)
+        toolbar_box.toolbar.insert(activity_button, -1)
+        activity_button.show()
+
+        # Pause/Play button:
+
+        pause_play = ToolButton('media-playback-pause')
+        pause_play.set_tooltip(_("Pause"))
+        pause_play.set_accelerator(_('<ctrl>space'))
+        pause_play.connect('clicked', self._pause_play_cb)
+        pause_play.show()
+
+        toolbar_box.toolbar.insert(pause_play, -1)
+
+        # Blank space (separator) and Stop button at the end:
+
+        separator = Gtk.SeparatorToolItem()
+        separator.props.draw = False
         separator.set_expand(True)
-        toolbar.insert(separator, -1)
+        toolbar_box.toolbar.insert(separator, -1)
+        separator.show()
 
-        # Add Stop Button
-        toolbar.insert(StopButton(self), -1)
+        stop_button = StopButton(self)
+        toolbar_box.toolbar.insert(stop_button, -1)
+        stop_button.show()
+        stop_button.connect('clicked', self._stop_cb)
 
-        self.game = mainGame.main()
-        # Create Container
-        self.game.canvas = self._pygamecanvas = sugargame.canvas.PygameCanvas(self, main=self.game.run, modules=[pygame.display, pygame.font])
+    def _pause_play_cb(self, button):
+        # Pause or unpause the game.
+        self.paused = not self.paused
+        self.game.set_paused(self.paused)
 
-        # Show all components (otherwise none will be displayed)
-        self.show_all()
+        # Update the button to show the next action.
+        if self.paused:
+            button.set_icon_name('media-playback-start')
+            button.set_tooltip(_("Start"))
+        else:
+            button.set_icon_name('media-playback-pause')
+            button.set_tooltip(_("Pause"))
 
-def main():
-    game = mainGame.main()
-    game()
+    def _stop_cb(self, button):
+        self.game.running = False
 
-if __name__ == '__main__':
-    main()
+    def read_file(self, file_path):
+        self.game.read_file(file_path)
+
+    def write_file(self, file_path):
+        self.game.write_file(file_path)
+
+    def get_preview(self):
+        return self._pygamecanvas.get_preview()
