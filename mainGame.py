@@ -90,20 +90,20 @@ class snakeClass:
 
 
     # function to print score
-    def score(score):
+    def score(self,score):
         text = smallfont.render("Score : " + str(score), True, black)
         gameDisplay.blit(text, [2,2])
     
     
     # function for random apple generation
-    def randomAppleGen():
+    def randomAppleGen(self):
         randomFruitX = round(random.randrange(0, display_width - appleSize) / 10.0) * 10.0
         randomFruitY = round(random.randrange(0, display_height - appleSize) / 10.0) * 10.0
     
         return randomFruitX, randomFruitY
     
     # to generate and update snake :P
-    def snake(block, snakeList):
+    def snake(self, block, snakeList):
         # At some point, we may want to rotate the snake's body when it reaches
         # a part where the snake turns
         body = pygame.transform.rotate(snakebody, 0)
@@ -130,7 +130,7 @@ class snakeClass:
             pygame.draw.rect(gameDisplay, green, [XnY[0], XnY[1], block, block])
     
     
-    def text_object(msg, color,size):
+    def text_object(self, msg, color,size):
         if size == "small": 
             textSurface = smallfont.render(msg, True, color)
             return textSurface, textSurface.get_rect()
@@ -144,7 +144,7 @@ class snakeClass:
             return textSurface, textSurface.get_rect()
     
     # func to print message on game display
-    def message_to_display(msg, color, y_displace = 0, size = "small"):
+    def message_to_display(self, msg, color, y_displace = 0, size = "small"):
         textSurf , textRect = text_object(msg, color, size)
         textRect.center = (display_width/2), (display_height/2) + y_displace
         gameDisplay.blit(textSurf, textRect)
