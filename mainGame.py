@@ -279,7 +279,7 @@ def main():
     pygame.mixer.init()
     pygame.display.set_mode((0, 0), pygame.RESIZABLE)
     game = snakeClass()
-    game.run()
+    game.run(self)
 
 if __name__ == '__main__':
     main()
