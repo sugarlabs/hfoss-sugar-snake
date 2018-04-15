@@ -35,7 +35,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 class gameClass:
-    def __init__(self, gameDisplay):
+    def __init__(self):
         # Set up a clock for managing the frame rate.
         self.clock = pygame.time.Clock()
         # contant value initialised
@@ -47,7 +47,7 @@ class gameClass:
         # display init
         self.display_height = 800
         self.display_height = 600
-        self.gameDisplay=gameDisplay 
+        #self.screen=screen 
         
         # path for the image folder
         assets = path.join(path.dirname(__file__), 'assets')
@@ -70,9 +70,9 @@ class gameClass:
         self.direction = "right"
         
         # init font object with font size 25 
-        self.smallfont = pygame.font.SysFont("comicsansms", 20)
-        self.medfont = pygame.font.SysFont("comicsansms", 40)
-        self.largefont = pygame.font.SysFont("comicsansms", 70)
+        self.smallfont = pygame.font.Font(None, 20)
+        self.medfont = pygame.font.Font(None, 40)
+        self.largefont = pygame.font.Font(None, 70)
         
         self.paused = False
 
@@ -92,7 +92,7 @@ class gameClass:
     # function to print score
     def score(self,score):
         text = self.smallfont.render("Score : " + str(score), True, self.black)
-        self.gameDisplay.blit(text, [2,2])
+        self.screen.blit(text, [2,2])
     
     
     # function for random apple generation
@@ -124,10 +124,10 @@ class gameClass:
     
         # This method is just working, but not good.
         # Will have to hamake it better and add the snake tail as well.
-        self.gameDisplay.blit(head, (snakeList[-1][0], snakeList[-1][1]))
+        self.screen.blit(head, (snakeList[-1][0], snakeList[-1][1]))
         for XnY in snakeList[:-1]:
-            # self.gameDisplay.blit(head, (snakeList[-1][0], snakeList[-1][1]))
-            pygame.draw.rect(self.gameDisplay, self.green, [XnY[0], XnY[1], block, block])
+            # self.screen.blit(head, (snakeList[-1][0], snakeList[-1][1]))
+            pygame.draw.rect(self.screen, self.green, [XnY[0], XnY[1], block, block])
     
     
     def text_object(self, msg, color,size):
@@ -147,7 +147,7 @@ class gameClass:
     def message_to_display(self, msg, color, y_displace = 0, size = "small"):
         textSurf , textRect = self.text_object(msg, color, size)
         textRect.center = (self.display_height/2), (self.display_height/2) + y_displace
-        self.gameDisplay.blit(textSurf, textRect)
+        self.screen.blit(textSurf, textRect)
     
     
     # game starts here
@@ -155,7 +155,7 @@ class gameClass:
         # global variable direction
         global direction
         global isDead
-    
+        screen = pygame.display.get_surface()
         # menu sound stops
         pygame.mixer.music.fadeout(600)
         
@@ -184,10 +184,10 @@ class gameClass:
                 pygame.mixer.music.play(-1)
     
                 while gameOver == True :
-                    self.gameDisplay.fill(self.white)
+                    self.screen.fill(self.white)
                     self.message_to_display("Game Over", self.red, -70, "large")
                     text = self.smallfont.render("Your final score is : " + str(snakeLength), True, self.black)
-                    self.gameDisplay.blit(text, [300,300])
+                    self.screen.blit(text, [300,300])
                     
                     pygame.display.update()
     
@@ -198,8 +198,11 @@ class gameClass:
                         if event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_q:
                                 gameExit = True
-                                gameOver = False
-    
+            # Pump GTK messages.
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+
+            # Pump PyGame messages
             for event in pygame.event.get():
                 if event.type  == pygame.QUIT:
                     gameExit = True
@@ -227,8 +230,8 @@ class gameClass:
             start_x += move_to_h
             start_y += move_to_v
     
-            self.gameDisplay.fill(self.white)
-            self.gameDisplay.blit(self.appleimg, (randomFruitX, randomFruitY))
+            self.screen.fill(self.white)
+            self.screen.blit(self.appleimg, (randomFruitX, randomFruitY))
     
             snakeHead = []
             snakeHead.append(start_x)
@@ -275,8 +278,8 @@ class gameClass:
 def main():
     pygame.init()
     pygame.mixer.init()
-    gameDisplay=pygame.display.set_mode((0, 0), pygame.RESIZABLE)
-    game = gameClass(gameDisplay)
+    screen=pygame.display.set_mode((0, 0), pygame.RESIZABLE)
+    game = gameClass()
     game.run()
 
 if __name__ == '__main__':
