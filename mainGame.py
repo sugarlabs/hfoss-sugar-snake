@@ -35,7 +35,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 class gameClass:
-    def __init__(self):
+    def __init__(self, gameDisplay):
         # Set up a clock for managing the frame rate.
         self.clock = pygame.time.Clock()
         # contant value initialised
@@ -47,11 +47,11 @@ class gameClass:
         # display init
         self.display_height = 800
         self.display_height = 600
-        
+        self.gameDisplay=gameDisplay 
         
         # path for the image folder
         assets = path.join(path.dirname(__file__), 'assets')
-        sound_folder = path.join(path.dirname(__file__), 'sounds')
+        self.sound_folder = path.join(path.dirname(__file__), 'sounds')
         
         
         
@@ -91,14 +91,14 @@ class gameClass:
 
     # function to print score
     def score(self,score):
-        text = smallfont.render("Score : " + str(score), True, black)
-        gameDisplay.blit(text, [2,2])
+        text = self.smallfont.render("Score : " + str(score), True, self.black)
+        self.gameDisplay.blit(text, [2,2])
     
     
     # function for random apple generation
     def randomAppleGen(self):
-        randomFruitX = round(random.randrange(0, self.display_height - appleSize) / 10.0) * 10.0
-        randomFruitY = round(random.randrange(0, self.display_height - appleSize) / 10.0) * 10.0
+        randomFruitX = round(random.randrange(0, self.display_height - self.appleSize) / 10.0) * 10.0
+        randomFruitY = round(random.randrange(0, self.display_height - self.appleSize) / 10.0) * 10.0
     
         return randomFruitX, randomFruitY
     
@@ -106,33 +106,33 @@ class gameClass:
     def snake(self, block, snakeList):
         # At some point, we may want to rotate the snake's body when it reaches
         # a part where the snake turns
-        body = pygame.transform.rotate(snakebody, 0)
-        tail = pygame.transform.rotate(snaketail, 0)
+        body = pygame.transform.rotate(self.snakebody, 0)
+        tail = pygame.transform.rotate(self.snaketail, 0)
         
         if direction == "right":
-            head = pygame.transform.rotate(snakeimg, 270)
+            head = pygame.transform.rotate(self.snakeimg, 270)
     
         if direction == "left":
-            head = pygame.transform.rotate(snakeimg, 90)
+            head = pygame.transform.rotate(self.snakeimg, 90)
     
         if direction == "up":
-            head = snakeimg
+            head = self.snakeimg
     
         if direction == "down":
-            head = pygame.transform.rotate(snakeimg, 180)
+            head = pygame.transform.rotate(self.snakeimg, 180)
     
     
         # This method is just working, but not good.
         # Will have to hamake it better and add the snake tail as well.
-        gameDisplay.blit(head, (snakeList[-1][0], snakeList[-1][1]))
+        self.gameDisplay.blit(head, (snakeList[-1][0], snakeList[-1][1]))
         for XnY in snakeList[:-1]:
-            # gameDisplay.blit(head, (snakeList[-1][0], snakeList[-1][1]))
-            pygame.draw.rect(gameDisplay, green, [XnY[0], XnY[1], block, block])
+            # self.gameDisplay.blit(head, (snakeList[-1][0], snakeList[-1][1]))
+            pygame.draw.rect(self.gameDisplay, self.green, [XnY[0], XnY[1], block, block])
     
     
     def text_object(self, msg, color,size):
         if size == "small": 
-            textSurface = smallfont.render(msg, True, color)
+            textSurface = self.smallfont.render(msg, True, color)
             return textSurface, textSurface.get_rect()
     
         if size == "medium":
@@ -140,14 +140,14 @@ class gameClass:
             return textSurface, textSurface.get_rect()
     
         if size == "large":
-            textSurface = largefont.render(msg, True, color)
+            textSurface = self.largefont.render(msg, True, color)
             return textSurface, textSurface.get_rect()
     
     # func to print message on game display
     def message_to_display(self, msg, color, y_displace = 0, size = "small"):
-        textSurf , textRect = text_object(msg, color, size)
+        textSurf , textRect = self.text_object(msg, color, size)
         textRect.center = (self.display_height/2), (self.display_height/2) + y_displace
-        gameDisplay.blit(textSurf, textRect)
+        self.gameDisplay.blit(textSurf, textRect)
     
     
     # game starts here
@@ -180,14 +180,14 @@ class gameClass:
     
         while not gameExit :
             if gameOver == True:
-                menu_song = pygame.mixer.music.load(path.join(sound_folder, "gameover.ogg"))
+                menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "gameover.ogg"))
                 pygame.mixer.music.play(-1)
     
                 while gameOver == True :
-                    gameDisplay.fill(white)
-                    self.message_to_display("Game Over", red, -70, "large")
-                    text = smallfont.render("Your final score is : " + str(snakeLength), True, black)
-                    gameDisplay.blit(text, [300,300])
+                    self.gameDisplay.fill(self.white)
+                    self.message_to_display("Game Over", self.red, -70, "large")
+                    text = self.smallfont.render("Your final score is : " + str(snakeLength), True, self.black)
+                    self.gameDisplay.blit(text, [300,300])
                     
                     pygame.display.update()
     
@@ -206,19 +206,19 @@ class gameClass:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT and move_to_h == 0:
                         direction = "left"
-                        move_to_h = -block
+                        move_to_h = -self.block
                         move_to_v = 0
                     elif event.key == pygame.K_RIGHT and move_to_h == 0:
                         direction = "right"
-                        move_to_h = block
+                        move_to_h = self.block
                         move_to_v = 0
                     elif event.key == pygame.K_UP and move_to_v == 0:
                         direction = "up"
-                        move_to_v = -block
+                        move_to_v = -self.block
                         move_to_h = 0
                     elif event.key == pygame.K_DOWN and move_to_v == 0:
                         direction = "down"
-                        move_to_v = block
+                        move_to_v = self.block
                         move_to_h = 0
                         
             if start_x >= self.display_height or start_x < 0 or start_y >= self.display_height or start_y < 0:
@@ -227,8 +227,8 @@ class gameClass:
             start_x += move_to_h
             start_y += move_to_v
     
-            gameDisplay.fill(white)
-            gameDisplay.blit(appleimg, (randomFruitX, randomFruitY))
+            self.gameDisplay.fill(self.white)
+            self.gameDisplay.blit(self.appleimg, (randomFruitX, randomFruitY))
     
             snakeHead = []
             snakeHead.append(start_x)
@@ -240,31 +240,31 @@ class gameClass:
     
             self.score(snakeLength - 1)
     
-            self.snake(block, snakeList)
+            self.snake(self.block, snakeList)
             pygame.display.update()
     
             # to see if snake has eaten himself or not
             for eachSegment in snakeList[:-1]:
                 if eachSegment == snakeHead:
                     isDead = True
-                    self.snake(block, snakeList)
+                    self.snake(self.block, snakeList)
                     pygame.time.delay(1000)
                     gameOver = True
     
-            if start_x > randomFruitX and start_x < randomFruitX + appleSize or start_x + block > randomFruitX and start_x + block < randomFruitX + appleSize:
-                if start_y > randomFruitY and start_y < randomFruitY + appleSize:
+            if start_x > randomFruitX and start_x < randomFruitX + self.appleSize or start_x + self.block > randomFruitX and start_x + self.block < randomFruitX + self.appleSize:
+                if start_y > randomFruitY and start_y < randomFruitY + self.appleSize:
                     randomFruitX, randomFruitY = self.randomAppleGen()
                     snakeLength += 1 
-                    menu_song = pygame.mixer.music.load(path.join(sound_folder, "wakka.ogg"))
+                    menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "wakka.ogg"))
                     pygame.mixer.music.play(0)
-                if start_y + block > randomFruitY and start_y + block < randomFruitY + appleSize:
+                if start_y + self.block > randomFruitY and start_y + self.block < randomFruitY + self.appleSize:
                     randomFruitX, randomFruitY = self.randomAppleGen()
                     snakeLength += 1 
-                    menu_song = pygame.mixer.music.load(path.join(sound_folder, "wakka.ogg"))
+                    menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "wakka.ogg"))
                     pygame.mixer.music.play(0)
     
             # initialising no. of frames per sec
-            clock.tick(15)
+            self.clock.tick(15)
     
     
         pygame.quit()
@@ -275,8 +275,8 @@ class gameClass:
 def main():
     pygame.init()
     pygame.mixer.init()
-    pygame.display.set_mode((0, 0), pygame.RESIZABLE)
-    game = gameClass()
+    gameDisplay=pygame.display.set_mode((0, 0), pygame.RESIZABLE)
+    game = gameClass(gameDisplay)
     game.run()
 
 if __name__ == '__main__':
