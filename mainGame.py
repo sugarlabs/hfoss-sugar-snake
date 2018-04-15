@@ -34,7 +34,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-class snakeClass:
+class gameClass:
     def __init__(self):
         # Set up a clock for managing the frame rate.
         self.clock = pygame.time.Clock()
@@ -45,8 +45,8 @@ class snakeClass:
         self.green = (0,155,0)
         
         # display init
-        display_width = 800
-        display_height = 600
+        self.display_height = 800
+        self.display_height = 600
         
         
         # path for the image folder
@@ -97,8 +97,8 @@ class snakeClass:
     
     # function for random apple generation
     def randomAppleGen(self):
-        randomFruitX = round(random.randrange(0, display_width - appleSize) / 10.0) * 10.0
-        randomFruitY = round(random.randrange(0, display_height - appleSize) / 10.0) * 10.0
+        randomFruitX = round(random.randrange(0, self.display_height - appleSize) / 10.0) * 10.0
+        randomFruitY = round(random.randrange(0, self.display_height - appleSize) / 10.0) * 10.0
     
         return randomFruitX, randomFruitY
     
@@ -146,7 +146,7 @@ class snakeClass:
     # func to print message on game display
     def message_to_display(self, msg, color, y_displace = 0, size = "small"):
         textSurf , textRect = text_object(msg, color, size)
-        textRect.center = (display_width/2), (display_height/2) + y_displace
+        textRect.center = (self.display_height/2), (self.display_height/2) + y_displace
         gameDisplay.blit(textSurf, textRect)
     
     
@@ -172,8 +172,8 @@ class snakeClass:
     
         randomFruitX, randomFruitY = self.randomAppleGen()
     
-        start_x = display_width/2
-        start_y = display_height/2
+        start_x = self.display_height/2
+        start_y = self.display_height/2
         
         move_to_h = 10
         move_to_v = 0
@@ -221,7 +221,7 @@ class snakeClass:
                         move_to_v = block
                         move_to_h = 0
                         
-            if start_x >= display_width or start_x < 0 or start_y >= display_height or start_y < 0:
+            if start_x >= self.display_height or start_x < 0 or start_y >= self.display_height or start_y < 0:
                 gameOver = True
     
             start_x += move_to_h
@@ -276,7 +276,7 @@ def main():
     pygame.init()
     pygame.mixer.init()
     pygame.display.set_mode((0, 0), pygame.RESIZABLE)
-    game = snakeClass()
+    game = gameClass()
     game.run()
 
 if __name__ == '__main__':
