@@ -25,17 +25,18 @@ class snakeActivity(activity.Activity):
 
         # Create the game instance.
         self.game = mainGame.gameClass()
+       
+       # Build the Pygame canvas.
+        # Start the game running (self.game.run is called when the
+        # activity constructor returns).
+        self.game.canvas = sugargame.canvas.PygameCanvas(self,
+            main=self.game.run, modules=[pygame.display, pygame.font])
 
-        # Build the Pygame canvas.
-        self._pygamecanvas = sugargame.canvas.PygameCanvas(self)
         # Note that set_canvas implicitly calls read_file when
         # resuming from the Journal.
-        self.set_canvas(self._pygamecanvas)
-        self._pygamecanvas.grab_focus()
-        self.score = '0'
+        self.set_canvas(self.game.canvas)
+        self.game.canvas.grab_focus()
 
-        # Start the game running.
-        self._pygamecanvas.run_pygame(self.game.run)
 
     def build_toolbar(self):
         toolbar_box = ToolbarBox()

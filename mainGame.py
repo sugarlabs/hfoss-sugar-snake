@@ -69,7 +69,8 @@ class gameClass:
         # snake image direction variable
         self.direction = "right"
         
-        # init font object with font size 25 
+        # init font object with font size 25
+        pygame.font.init()
         self.smallfont = pygame.font.Font(None, 20)
         self.medfont = pygame.font.Font(None, 40)
         self.largefont = pygame.font.Font(None, 70)
