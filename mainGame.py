@@ -47,12 +47,11 @@ class gameClass:
         # display init
         self.display_height = 800
         self.display_height = 600
-        #self.screen=screen 
+        self.screen = None
         
         # path for the image folder
         assets = path.join(path.dirname(__file__), 'assets')
         self.sound_folder = path.join(path.dirname(__file__), 'sounds')
-        
         
         
         # image loading for both apple and snake
@@ -77,8 +76,20 @@ class gameClass:
         
         self.paused = False
 
+        #score
+        self.gameScore = 0
+
     def set_paused(self, paused):
         self.paused = paused
+
+    # function to print score
+    def printScore(self,score):
+        text = self.smallfont.render("Score : " + str(score), True, self.black)
+        self.screen.blit(text, [2,2])
+    
+    # score getter
+    def get_score(self):
+        return self.gameScore
 
     # Called to save the state of the game to the Journal.
     def write_file(self, file_path):
@@ -89,13 +100,6 @@ class gameClass:
         pass
 
 
-
-    # function to print score
-    def score(self,score):
-        text = self.smallfont.render("Score : " + str(score), True, self.black)
-        self.screen.blit(text, [2,2])
-    
-    
     # function for random apple generation
     def randomAppleGen(self):
         randomFruitX = round(random.randrange(0, self.display_height - self.appleSize) / 10.0) * 10.0
@@ -156,9 +160,9 @@ class gameClass:
         # global variable direction
         global direction
         global isDead
-        screen = pygame.display.get_surface()
+        self.screen = pygame.display.get_surface()
         # menu sound stops
-        pygame.mixer.music.fadeout(600)
+        #pygame.mixer.music.fadeout(600)
         
         direction = "right"
     
@@ -181,8 +185,8 @@ class gameClass:
     
         while not gameExit :
             if gameOver == True:
-                menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "gameover.ogg"))
-                pygame.mixer.music.play(-1)
+                #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "gameover.ogg"))
+                #pygame.mixer.music.play(-1)
     
                 while gameOver == True :
                     self.screen.fill(self.white)
@@ -242,7 +246,7 @@ class gameClass:
             if len(snakeList) > snakeLength:
                 del snakeList[0]
     
-            self.score(snakeLength - 1)
+            self.printScore(snakeLength - 1)
     
             self.snake(self.block, snakeList)
             pygame.display.update()
@@ -259,16 +263,18 @@ class gameClass:
                 if start_y > randomFruitY and start_y < randomFruitY + self.appleSize:
                     randomFruitX, randomFruitY = self.randomAppleGen()
                     snakeLength += 1 
-                    menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "wakka.ogg"))
-                    pygame.mixer.music.play(0)
+                    #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "wakka.ogg"))
+                    #pygame.mixer.music.play(0)
                 if start_y + self.block > randomFruitY and start_y + self.block < randomFruitY + self.appleSize:
                     randomFruitX, randomFruitY = self.randomAppleGen()
                     snakeLength += 1 
-                    menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "wakka.ogg"))
-                    pygame.mixer.music.play(0)
+                    #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "wakka.ogg"))
+                    #pygame.mixer.music.play(0)
     
+            self.gameScore = snakeLength
             # initialising no. of frames per sec
             self.clock.tick(15)
+
     
     
         pygame.quit()
@@ -278,7 +284,7 @@ class gameClass:
 # # this fuction kicks-off everything 
 def main():
     pygame.init()
-    pygame.mixer.init()
+    #pygame.mixer.init()
     screen=pygame.display.set_mode((0, 0), pygame.RESIZABLE)
     game = gameClass()
     game.run()

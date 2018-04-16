@@ -1,6 +1,6 @@
 
 
-# DemoiselleActivity.py
+# snakeActivity.py
 
 from gettext import gettext as _
 
