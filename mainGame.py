@@ -33,6 +33,8 @@ from os import path
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
+from sugar3.graphics.style import GRID_CELL_SIZE
+
 
 class gameClass:
     def __init__(self):
@@ -158,6 +160,10 @@ class gameClass:
     # game starts here
     def run(self):
         # global variable direction
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return
+
         global direction
         global isDead
         self.screen = pygame.display.get_surface()
@@ -167,7 +173,7 @@ class gameClass:
         direction = "right"
     
         # variable init 
-        gameExit = False
+        running =True
         gameOver = False
         isDead = False
     
@@ -183,7 +189,7 @@ class gameClass:
         move_to_h = 10
         move_to_v = 0
     
-        while not gameExit :
+        while running :
             if gameOver == True:
                 #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "gameover.ogg"))
                 #pygame.mixer.music.play(-1)
@@ -199,10 +205,10 @@ class gameClass:
                     for event in pygame.event.get():
                         if event.type == pygame.QUIT:
                             gameOver = False
-                            gameExit = True
+                            running = False
                         if event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_q:
-                                gameExit = True
+                                running = False
             # Pump GTK messages.
             while Gtk.events_pending():
                 Gtk.main_iteration()
@@ -210,7 +216,7 @@ class gameClass:
             # Pump PyGame messages
             for event in pygame.event.get():
                 if event.type  == pygame.QUIT:
-                    gameExit = True
+                    running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_LEFT and move_to_h == 0:
                         direction = "left"
@@ -231,6 +237,7 @@ class gameClass:
                         
             if start_x >= self.display_height or start_x < 0 or start_y >= self.display_height or start_y < 0:
                 gameOver = True
+                running = False
     
             start_x += move_to_h
             start_y += move_to_v
@@ -275,11 +282,6 @@ class gameClass:
             # initialising no. of frames per sec
             self.clock.tick(15)
 
-    
-    
-        pygame.quit()
-        # you can signoff now, everything looks good!
-        quit()
 
 # # this fuction kicks-off everything 
 def main():
@@ -288,7 +290,11 @@ def main():
     screen=pygame.display.set_mode((0, 0), pygame.RESIZABLE)
     game = gameClass()
     game.run()
+    pygame.display.quit()
+    pygame.quit()
+    sys.exit(0)
 
 if __name__ == '__main__':
     main()
+
 

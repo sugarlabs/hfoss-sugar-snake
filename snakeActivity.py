@@ -41,16 +41,6 @@ class snakeActivity(activity.Activity):
     def build_toolbar(self):
         toolbar_box = ToolbarBox()
 
-        view_toolbar = ViewToolbar()
-        view_toolbar.connect('go-fullscreen',
-                self.view_toolbar_go_fullscreen_cb)
-        view_toolbar.show()
-        view_toolbar_button = ToolbarButton(
-            page=view_toolbar,
-            icon_name='toolbar-view')
-        toolbar_box.toolbar.insert(view_toolbar_button, -1)
-        view_toolbar_button.show()
-
         separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
         separator.set_expand(True)
@@ -61,6 +51,7 @@ class snakeActivity(activity.Activity):
         stop_button.props.accelerator = '<Ctrl><Shift>Q'
         toolbar_box.toolbar.insert(stop_button, -1)
         stop_button.show()
+        stop_button.connect('clicked', self._stop_cb)
 
         self.set_toolbar_box(toolbar_box)
         toolbar_box.show()
@@ -83,26 +74,7 @@ class snakeActivity(activity.Activity):
         finally:
             f.close
 
-class ViewToolbar(Gtk.Toolbar):
-    __gtype_name__ = 'ViewToolbar'
 
-    __gsignals__ = {
-        'needs-update-size': (GObject.SIGNAL_RUN_FIRST,
-                              GObject.TYPE_NONE,
-                              ([])),
-        'go-fullscreen': (GObject.SIGNAL_RUN_FIRST,
-                          GObject.TYPE_NONE,
-                          ([]))
-    }
-
-    def __init__(self):
-        Gtk.Toolbar.__init__(self)
-        self.fullscreen = ToolButton('view-fullscreen')
-        self.fullscreen.set_tooltip(_('Fullscreen'))
-        self.fullscreen.connect('clicked', self.fullscreen_cb)
-        self.insert(self.fullscreen, -1)
-        self.fullscreen.show()
-
-    def fullscreen_cb(self, button):
-        self.emit('go-fullscreen')
-
+    def _stop_cb(self, button):
+        self.game.running = False
+ 
