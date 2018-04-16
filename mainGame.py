@@ -193,22 +193,16 @@ class gameClass:
             if gameOver == True:
                 #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "gameover.ogg"))
                 #pygame.mixer.music.play(-1)
-    
-                while gameOver == True :
-                    self.screen.fill(self.white)
-                    self.message_to_display("Game Over", self.red, -70, "large")
-                    text = self.smallfont.render("Your final score is : " + str(snakeLength), True, self.black)
-                    self.screen.blit(text, [300,300])
-                    
-                    pygame.display.update()
-    
-                    for event in pygame.event.get():
-                        if event.type == pygame.QUIT:
-                            gameOver = False
-                            running = False
-                        if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_q:
-                                running = False
+                self.screen.fill(self.white)
+                self.message_to_display("Game Over", self.red, -70, "large")
+                text = self.smallfont.render("Your final score is : " + str(self.get_score()), True, self.black)
+                self.screen.blit(text, [100,100])
+                pygame.display.update()
+                break
+                    #for event in pygame.event.get():
+                     #   if event.type == pygame.QUIT:
+                            #running = False
+
             # Pump GTK messages.
             while Gtk.events_pending():
                 Gtk.main_iteration()
@@ -237,7 +231,6 @@ class gameClass:
                         
             if start_x >= self.display_height or start_x < 0 or start_y >= self.display_height or start_y < 0:
                 gameOver = True
-                running = False
     
             start_x += move_to_h
             start_y += move_to_v
@@ -278,7 +271,7 @@ class gameClass:
                     #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "wakka.ogg"))
                     #pygame.mixer.music.play(0)
     
-            self.gameScore = snakeLength
+            self.gameScore = snakeLength-1
             # initialising no. of frames per sec
             self.clock.tick(15)
 
