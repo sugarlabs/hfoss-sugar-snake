@@ -53,16 +53,15 @@ class gameClass:
         
         # path for the image folder
         assets = path.join(path.dirname(__file__), 'assets')
-        self.sound_folder = path.join(path.dirname(__file__), 'sounds')
         
-        
-        # image loading for both apple and snake
+        # image loading 
         self.snakeimg = pygame.image.load(path.join(assets + '/snake.png'))
         self.snakebody = pygame.image.load(path.join(assets + '/body.png'))
         self.snaketail = pygame.image.load(path.join(assets + '/tail.png'))
         self.gameicon = pygame.image.load(path.join(assets + '/gameicon.png'))
         self.appleimg = pygame.image.load(path.join(assets + '/apple.png'))
-        
+        self.startScreen = pygame.image.load(path.join(assets + '/start-screen.png'))
+
         # moving block size
         self.block = 20
         self.appleSize = 30
@@ -189,7 +188,7 @@ class gameClass:
             while Gtk.events_pending():
                 Gtk.main_iteration()
             if self.gameStarted == False:
-                self.screen.fill(self.black)
+                self.screen.blit(startScreen,(0,0))
                 myfont=self.largefont
                 nlabel=myfont.render("Sugar Snake", 1, self.white)
                 dlabel=self.medfont.render("Press the play button to begin.", 1, self.white)
