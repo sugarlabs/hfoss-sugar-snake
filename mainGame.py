@@ -189,6 +189,21 @@ class gameClass:
         move_to_h = 10
         move_to_v = 0
     
+	print "test title enter"
+	end_title=False
+	while (end_title==False):
+		self.screen.fill(self.black)
+		myfont=self.largefont
+		nlabel=myfont.render("Sugar Snake", 1, self.white)
+		dlabel=self.medfont.render("Press any key to begin", 1, self.white)
+		for event in pygame.event.get():
+			if event.type == pygame.KEYDOWN:
+				end_title=True
+				break
+		self.screen.blit(nlabel, (200,200))
+		self.screen.blit(dlabel, (400,400))
+		pygame.display.update()
+
         while running :
             if gameOver == True:
                 #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "gameover.ogg"))
