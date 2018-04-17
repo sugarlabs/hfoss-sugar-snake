@@ -173,9 +173,10 @@ class gameClass:
         direction = "right"
     
         # variable init 
-        running =True
+        running = True
         gameOver = False
         isDead = False
+        gameStarted = False
     
         # snake variables
         snakeList = []
@@ -190,33 +191,25 @@ class gameClass:
         move_to_v = 0
     
 	print "test title enter"
-	end_title=False
-	while (end_title==False):
+        while running :
+            if gameStarted == False:
 		self.screen.fill(self.black)
 		myfont=self.largefont
 		nlabel=myfont.render("Sugar Snake", 1, self.white)
-		dlabel=self.medfont.render("Press any key to begin", 1, self.white)
-		for event in pygame.event.get():
-			if event.type == pygame.KEYDOWN:
-				end_title=True
-				break
+		dlabel=self.medfont.render("Press the play button to begin.", 1, self.white)
 		self.screen.blit(nlabel, (200,200))
 		self.screen.blit(dlabel, (400,400))
 		pygame.display.update()
+                break
 
-        while running :
+
             if gameOver == True:
-                #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "gameover.ogg"))
-                #pygame.mixer.music.play(-1)
                 self.screen.fill(self.white)
                 self.message_to_display("Game Over", self.red, -70, "large")
                 text = self.smallfont.render("Your final score is : " + str(self.get_score()), True, self.black)
                 self.screen.blit(text, [100,100])
                 pygame.display.update()
                 break
-                    #for event in pygame.event.get():
-                     #   if event.type == pygame.QUIT:
-                            #running = False
 
             # Pump GTK messages.
             while Gtk.events_pending():
@@ -278,13 +271,9 @@ class gameClass:
                 if start_y > randomFruitY and start_y < randomFruitY + self.appleSize:
                     randomFruitX, randomFruitY = self.randomAppleGen()
                     snakeLength += 1 
-                    #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "wakka.ogg"))
-                    #pygame.mixer.music.play(0)
                 if start_y + self.block > randomFruitY and start_y + self.block < randomFruitY + self.appleSize:
                     randomFruitX, randomFruitY = self.randomAppleGen()
                     snakeLength += 1 
-                    #menu_song = pygame.mixer.music.load(path.join(self.sound_folder, "wakka.ogg"))
-                    #pygame.mixer.music.play(0)
     
             self.gameScore = snakeLength-1
             # initialising no. of frames per sec
@@ -294,7 +283,6 @@ class gameClass:
 # # this fuction kicks-off everything 
 def main():
     pygame.init()
-    #pygame.mixer.init()
     screen=pygame.display.set_mode((0, 0), pygame.RESIZABLE)
     game = gameClass()
     game.run()

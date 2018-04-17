@@ -52,12 +52,15 @@ class snakeActivity(activity.Activity):
         toolbar_box.toolbar.insert(stop_button, -1)
         stop_button.show()
         stop_button.connect('clicked', self._stop_cb)
+        
+        play_button = ToolButton('media-playback-start')
+        play_button.props.accelerator = 'P'
+        toolbar_box.toolbar.insert(play_button, -1)
+        play_button.show()
+        play_button.connect('clicked', self._play_cb)
 
         self.set_toolbar_box(toolbar_box)
         toolbar_box.show()
-
-    def view_toolbar_go_fullscreen_cb(self, view_toolbar):
-        self.fullscreen()
 
     def read_file(self, file_path):
         score_file = open(file_path, "r")
@@ -78,3 +81,5 @@ class snakeActivity(activity.Activity):
     def _stop_cb(self, button):
         self.game.running = False
  
+    def _play_cb(self, button):
+        self.game.gameStarted = True
