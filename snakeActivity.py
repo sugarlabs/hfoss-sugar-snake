@@ -15,6 +15,7 @@ from sugar3.activity.widgets import ActivityToolbar
 from gi.repository import GObject
 import sugargame.canvas
 import mainGame
+import sys
 
 class snakeActivity(activity.Activity):
     def __init__(self, handle):
@@ -41,6 +42,12 @@ class snakeActivity(activity.Activity):
     def build_toolbar(self):
         toolbar_box = ToolbarBox()
 
+        play_button = ToolButton('media-playback-start')
+        play_button.props.accelerator = 'P'
+        toolbar_box.toolbar.insert(play_button, -1)
+        play_button.show()
+        play_button.connect('clicked', self._play_cb)
+
         separator = Gtk.SeparatorToolItem()
         separator.props.draw = False
         separator.set_expand(True)
@@ -53,12 +60,6 @@ class snakeActivity(activity.Activity):
         stop_button.show()
         stop_button.connect('clicked', self._stop_cb)
         
-        play_button = ToolButton('media-playback-start')
-        play_button.props.accelerator = 'P'
-        toolbar_box.toolbar.insert(play_button, -1)
-        play_button.show()
-        play_button.connect('clicked', self._play_cb)
-
         self.set_toolbar_box(toolbar_box)
         toolbar_box.show()
 

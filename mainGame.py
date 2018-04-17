@@ -188,7 +188,7 @@ class gameClass:
             while Gtk.events_pending():
                 Gtk.main_iteration()
             if self.gameStarted == False:
-                self.screen.blit(startScreen,(0,0))
+                self.screen.blit(self.startScreen,(0,0))
                 myfont=self.largefont
                 nlabel=myfont.render("Sugar Snake", 1, self.white)
                 dlabel=self.medfont.render("Press the play button to begin.", 1, self.white)
