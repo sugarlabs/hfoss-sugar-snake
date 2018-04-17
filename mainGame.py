@@ -76,7 +76,7 @@ class gameClass:
         self.medfont = pygame.font.Font(None, 40)
         self.largefont = pygame.font.Font(None, 70)
         
-        self.paused = False
+        self.gameStarted = False
 
         #score
         self.gameScore = 0
@@ -160,15 +160,9 @@ class gameClass:
     # game starts here
     def run(self):
         # global variable direction
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return
-
         global direction
         global isDead
         self.screen = pygame.display.get_surface()
-        # menu sound stops
-        #pygame.mixer.music.fadeout(600)
         
         direction = "right"
     
@@ -176,7 +170,6 @@ class gameClass:
         running = True
         gameOver = False
         isDead = False
-        gameStarted = False
     
         # snake variables
         snakeList = []
@@ -190,92 +183,88 @@ class gameClass:
         move_to_h = 10
         move_to_v = 0
     
-	print "test title enter"
+    
         while running :
-            if gameStarted == False:
-		self.screen.fill(self.black)
-		myfont=self.largefont
-		nlabel=myfont.render("Sugar Snake", 1, self.white)
-		dlabel=self.medfont.render("Press the play button to begin.", 1, self.white)
-		self.screen.blit(nlabel, (200,200))
-		self.screen.blit(dlabel, (400,400))
-		pygame.display.update()
-                break
-
-
-            if gameOver == True:
-                self.screen.fill(self.white)
-                self.message_to_display("Game Over", self.red, -70, "large")
-                text = self.smallfont.render("Your final score is : " + str(self.get_score()), True, self.black)
-                self.screen.blit(text, [100,100])
-                pygame.display.update()
-                break
-
             # Pump GTK messages.
             while Gtk.events_pending():
                 Gtk.main_iteration()
-
-            # Pump PyGame messages
-            for event in pygame.event.get():
-                if event.type  == pygame.QUIT:
-                    running = False
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_LEFT and move_to_h == 0:
-                        direction = "left"
-                        move_to_h = -self.block
-                        move_to_v = 0
-                    elif event.key == pygame.K_RIGHT and move_to_h == 0:
-                        direction = "right"
-                        move_to_h = self.block
-                        move_to_v = 0
-                    elif event.key == pygame.K_UP and move_to_v == 0:
-                        direction = "up"
-                        move_to_v = -self.block
-                        move_to_h = 0
-                    elif event.key == pygame.K_DOWN and move_to_v == 0:
-                        direction = "down"
-                        move_to_v = self.block
-                        move_to_h = 0
-                        
-            if start_x >= self.display_height or start_x < 0 or start_y >= self.display_height or start_y < 0:
-                gameOver = True
+            if self.gameStarted == False:
+                self.screen.fill(self.black)
+                myfont=self.largefont
+                nlabel=myfont.render("Sugar Snake", 1, self.white)
+                dlabel=self.medfont.render("Press the play button to begin.", 1, self.white)
+                self.screen.blit(nlabel, (200,200))
+                self.screen.blit(dlabel, (400,400))
+                pygame.display.update()
+                continue
+            else:
+                if gameOver == True:
+                    self.screen.fill(self.white)
+                    self.message_to_display("Game Over", self.red, -70, "large")
+                    text = self.smallfont.render("Your final score is : " + str(self.get_score()), True, self.black)
+                    self.screen.blit(text, [100,100])
+                    pygame.display.update()
+                    continue
     
-            start_x += move_to_h
-            start_y += move_to_v
-    
-            self.screen.fill(self.white)
-            self.screen.blit(self.appleimg, (randomFruitX, randomFruitY))
-    
-            snakeHead = []
-            snakeHead.append(start_x)
-            snakeHead.append(start_y)
-            snakeList.append(snakeHead)
-    
-            if len(snakeList) > snakeLength:
-                del snakeList[0]
-    
-            self.printScore(snakeLength - 1)
-    
-            self.snake(self.block, snakeList)
-            pygame.display.update()
-    
-            # to see if snake has eaten himself or not
-            for eachSegment in snakeList[:-1]:
-                if eachSegment == snakeHead:
-                    isDead = True
-                    self.snake(self.block, snakeList)
-                    pygame.time.delay(1000)
+                # Pump PyGame messages
+                for event in pygame.event.get():
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_LEFT and move_to_h == 0:
+                            direction = "left"
+                            move_to_h = -self.block
+                            move_to_v = 0
+                        elif event.key == pygame.K_RIGHT and move_to_h == 0:
+                            direction = "right"
+                            move_to_h = self.block
+                            move_to_v = 0
+                        elif event.key == pygame.K_UP and move_to_v == 0:
+                            direction = "up"
+                            move_to_v = -self.block
+                            move_to_h = 0
+                        elif event.key == pygame.K_DOWN and move_to_v == 0:
+                            direction = "down"
+                            move_to_v = self.block
+                            move_to_h = 0
+                    
+                if start_x >= self.display_height or start_x < 0 or start_y >= self.display_height or start_y < 0:
                     gameOver = True
-    
-            if start_x > randomFruitX and start_x < randomFruitX + self.appleSize or start_x + self.block > randomFruitX and start_x + self.block < randomFruitX + self.appleSize:
-                if start_y > randomFruitY and start_y < randomFruitY + self.appleSize:
-                    randomFruitX, randomFruitY = self.randomAppleGen()
-                    snakeLength += 1 
-                if start_y + self.block > randomFruitY and start_y + self.block < randomFruitY + self.appleSize:
-                    randomFruitX, randomFruitY = self.randomAppleGen()
-                    snakeLength += 1 
-    
-            self.gameScore = snakeLength-1
+        
+                start_x += move_to_h
+                start_y += move_to_v
+        
+                self.screen.fill(self.white)
+                self.screen.blit(self.appleimg, (randomFruitX, randomFruitY))
+        
+                snakeHead = []
+                snakeHead.append(start_x)
+                snakeHead.append(start_y)
+                snakeList.append(snakeHead)
+        
+                if len(snakeList) > snakeLength:
+                    del snakeList[0]
+        
+                self.printScore(snakeLength - 1)
+        
+                self.snake(self.block, snakeList)
+                pygame.display.update()
+        
+                # to see if snake has eaten himself or not
+                for eachSegment in snakeList[:-1]:
+                    if eachSegment == snakeHead:
+                        isDead = True
+                        self.snake(self.block, snakeList)
+                        pygame.time.delay(1000)
+                        gameOver = True
+        
+                if start_x > randomFruitX and start_x < randomFruitX + self.appleSize or start_x + self.block > randomFruitX and start_x + self.block < randomFruitX + self.appleSize:
+                    if start_y > randomFruitY and start_y < randomFruitY + self.appleSize:
+                        randomFruitX, randomFruitY = self.randomAppleGen()
+                        snakeLength += 1 
+                    if start_y + self.block > randomFruitY and start_y + self.block < randomFruitY + self.appleSize:
+                        randomFruitX, randomFruitY = self.randomAppleGen()
+                        snakeLength += 1 
+        
+                self.gameScore = snakeLength-1
             # initialising no. of frames per sec
             self.clock.tick(15)
 

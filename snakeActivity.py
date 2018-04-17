@@ -79,7 +79,9 @@ class snakeActivity(activity.Activity):
 
 
     def _stop_cb(self, button):
-        self.game.running = False
+        pygame.display.quit()
+        pygame.quit()
+        sys.exit(0)
  
     def _play_cb(self, button):
-        self.game.gameStarted = True
+        
