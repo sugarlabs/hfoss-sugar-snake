@@ -47,8 +47,8 @@ class gameClass:
         self.green = (0,155,0)
         
         # display init
-        self.display_height = 800
-        self.display_height = 600
+       # pygame.display.Info().current_h = pygame.display.Info().current_h
+        #pygame.display.Info().current_h = pygame.display.Info().current_w
         self.screen = None
         
         # path for the image folder
@@ -103,8 +103,8 @@ class gameClass:
 
     # function for random apple generation
     def randomAppleGen(self):
-        randomFruitX = round(random.randrange(0, self.display_height - self.appleSize) / 10.0) * 10.0
-        randomFruitY = round(random.randrange(0, self.display_height - self.appleSize) / 10.0) * 10.0
+        randomFruitX = round(random.randrange(0, pygame.display.Info().current_h - self.appleSize) / 10.0) * 10.0
+        randomFruitY = round(random.randrange(0, pygame.display.Info().current_h - self.appleSize) / 10.0) * 10.0
     
         return randomFruitX, randomFruitY
     
@@ -152,7 +152,7 @@ class gameClass:
     # func to print message on game display
     def message_to_display(self, msg, color, y_displace = 0, size = "small"):
         textSurf , textRect = self.text_object(msg, color, size)
-        textRect.center = (self.display_height/2), (self.display_height/2) + y_displace
+        textRect.center = (pygame.display.Info().current_h/2), (pygame.display.Info().current_h/2) + y_displace
         self.screen.blit(textSurf, textRect)
     
     
@@ -176,8 +176,8 @@ class gameClass:
     
         randomFruitX, randomFruitY = self.randomAppleGen()
     
-        start_x = self.display_height/2
-        start_y = self.display_height/2
+        start_x = pygame.display.Info().current_h/2
+        start_y = pygame.display.Info().current_h/2
         
         move_to_h = 10
         move_to_v = 0
@@ -225,7 +225,7 @@ class gameClass:
                             move_to_v = self.block
                             move_to_h = 0
                     
-                if start_x >= self.display_height or start_x < 0 or start_y >= self.display_height or start_y < 0:
+                if start_x >= pygame.display.Info().current_h or start_x < 0 or start_y >= pygame.display.Info().current_h or start_y < 0:
                     gameOver = True
         
                 start_x += move_to_h
@@ -265,7 +265,7 @@ class gameClass:
         
                 self.gameScore = snakeLength-1
             # initialising no. of frames per sec
-            self.clock.tick(15)
+            self.clock.tick(10)
 
 
 # # this fuction kicks-off everything 
