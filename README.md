@@ -11,6 +11,6 @@ Press F3 to go to the main menu if stuck in journal page
 
 Click on the search bar and search for terminal
 
-run "git clone https://github.com/axk4545/hfoss-sugar-snake"
+Run "git clone https://github.com/axk4545/hfoss-sugar-snake"
 
-run  sugar-activity snakeActivity.snakeActivity
+Run  "sugar-activity snakeActivity.snakeActivity"
