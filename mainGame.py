@@ -47,9 +47,6 @@ class gameClass:
         self.green = (0,155,0)
         self.yellow = (255, 255, 0)
 
-        # display init
-       # pygame.display.Info().current_h = pygame.display.Info().current_h
-        #pygame.display.Info().current_h = pygame.display.Info().current_w
         self.screen = None
 
         # path for the image folder
@@ -79,6 +76,7 @@ class gameClass:
         # game state variables
         self.gameStarted = False
         self.gameOver = False
+        #self.paused = False
 
         # score
         self.gameScore = 0
@@ -179,14 +177,12 @@ class gameClass:
     def run(self):
         # global variable direction
         global direction
-        global isDead
         self.screen = pygame.display.get_surface()
 
         direction = "right"
 
         # variable init
         running = True
-        isDead = False
 
         # snake variables
         snakeList = []
@@ -228,15 +224,15 @@ class gameClass:
                 self.screen.blit(dlabel, (400,400))
                 pygame.display.update()
                 continue
+            elif self.gameOver == True:
+                print("Game is over")
+                self.screen.blit(self.endScreen,(0,0))
+                self.message_to_display("Game Over", self.red, -70, "large")
+                text = self.medfont.render("Your final score is : " + str(self.get_score()), True, self.red)
+                self.screen.blit(text, [100,100])
+                pygame.display.update()
+                continue
             else:
-                if self.gameOver == True:
-                    self.screen.blit(self.endScreen,(0,0))
-                    self.message_to_display("Game Over", self.red, -70, "large")
-                    text = self.medfont.render("Your final score is : " + str(self.get_score()), True, self.red)
-                    self.screen.blit(text, [100,100])
-                    pygame.display.update()
-                    continue
-
                 # Pump PyGame messages
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
@@ -256,6 +252,10 @@ class gameClass:
                             direction = "down"
                             move_to_v = self.block
                             move_to_h = 0
+                        #elif event.key == pygame.K_SPACE and self.paused == False:
+                         #   set_paused(True)
+                        #elif event.key == pygame.K_SPACE and self.paused == True:
+                         #   set_paused(False)
 
                 if start_x >= pygame.display.Info().current_h or start_x < 0 or start_y >= pygame.display.Info().current_h or start_y < 0:
                     self.gameOver = True
@@ -292,7 +292,6 @@ class gameClass:
                 # to see if snake has eaten himself or not
                 for eachSegment in snakeList[:-1]:
                     if eachSegment == snakeHead:
-                        isDead = True
                         self.snake(self.block, snakeList)
                         pygame.time.delay(1000)
                         self.gameOver = True
