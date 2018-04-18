@@ -87,3 +87,4 @@ class snakeActivity(activity.Activity):
  
     def _play_cb(self, button):
         self.game.gameStarted = True
+        #self.game.gameOver = False
