@@ -91,8 +91,8 @@ class gameClass:
 
     # function for random apple generation
     def randomAppleGen(self):
-        randomFruitX = round(random.randrange(0, self.display_width - self.appleSize) / 10.0) * 10.0
-        randomFruitY = round(random.randrange(0, self.display_height - self.appleSize) / 10.0) * 10.0
+        randomFruitX = round(random.randrange(0, pygame.display.Info().current_h - self.appleSize) / 10.0) * 10.0
+        randomFruitY = round(random.randrange(0, pygame.display.Info().current_h - self.appleSize) / 10.0) * 10.0
 
         return randomFruitX, randomFruitY
 
@@ -106,12 +106,12 @@ class gameClass:
     # function to print multiplication problem
     def problem(self, numberOne, numberTwo):
         text = self.smallfont.render(str(numberOne) + " X " + str(numberTwo) + " = ?", True, self.black)
-        self.gameDisplay.blit(text, [self.display_width / 2, 2])
+        self.screen.blit(text, [self.pygame.display.Info().current_w / 2, 2])
 
     # function for putting the number label on the apple
     def putNumInApple(self, num, (x, y)):
         label = self.smallfont.render(str(num), True, self.yellow)
-        self.gameDisplay.blit(label, [x, y])
+        self.screen.blit(label, [x, y])
 
     # score getter
     def get_score(self):
@@ -124,14 +124,6 @@ class gameClass:
     # Called to load the state of the game from the Journal.
     def read_file(self, file_path):
         pass
-
-
-    # function for random apple generation
-    def randomAppleGen(self):
-        randomFruitX = round(random.randrange(0, pygame.display.Info().current_h - self.appleSize) / 10.0) * 10.0
-        randomFruitY = round(random.randrange(0, pygame.display.Info().current_h - self.appleSize) / 10.0) * 10.0
-
-        return randomFruitX, randomFruitY
 
     # to generate and update snake :P
     def snake(self, block, snakeList):
