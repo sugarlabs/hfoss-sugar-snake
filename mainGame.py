@@ -76,9 +76,11 @@ class gameClass:
         self.medfont = pygame.font.Font(None, 40)
         self.largefont = pygame.font.Font(None, 70)
 
+        # game state variables
         self.gameStarted = False
+        self.gameOver = False
 
-        #score
+        # score
         self.gameScore = 0
 
     def set_paused(self, paused):
@@ -184,7 +186,6 @@ class gameClass:
 
         # variable init
         running = True
-        gameOver = False
         isDead = False
 
         # snake variables
@@ -228,7 +229,7 @@ class gameClass:
                 pygame.display.update()
                 continue
             else:
-                if gameOver == True:
+                if self.gameOver == True:
                     self.screen.blit(self.endScreen,(0,0))
                     self.message_to_display("Game Over", self.red, -70, "large")
                     text = self.medfont.render("Your final score is : " + str(self.get_score()), True, self.red)
@@ -257,7 +258,7 @@ class gameClass:
                             move_to_h = 0
 
                 if start_x >= pygame.display.Info().current_h or start_x < 0 or start_y >= pygame.display.Info().current_h or start_y < 0:
-                    gameOver = True
+                    self.gameOver = True
 
                 start_x += move_to_h
                 start_y += move_to_v
@@ -294,7 +295,7 @@ class gameClass:
                         isDead = True
                         self.snake(self.block, snakeList)
                         pygame.time.delay(1000)
-                        gameOver = True
+                        self.gameOver = True
 
                 if start_x > randomFruitX and start_x < randomFruitX + self.appleSize or start_x + self.block > randomFruitX and start_x + self.block < randomFruitX + self.appleSize:
                     if start_y > randomFruitY and start_y < randomFruitY + self.appleSize:
@@ -312,15 +313,15 @@ class gameClass:
 
                 if start_x > randomFruitX1 and start_x < randomFruitX1 + self.appleSize or start_x + self.block > randomFruitX1 and start_x + self.block < randomFruitX1 + self.appleSize:
                     if start_y > randomFruitY1 and start_y < randomFruitY1 + self.appleSize:
-                        gameOver = True
+                        self.gameOver = True
 
                 if start_x > randomFruitX2 and start_x < randomFruitX2 + self.appleSize or start_x + self.block > randomFruitX2 and start_x + self.block < randomFruitX2 + self.appleSize:
                     if start_y > randomFruitY2 and start_y < randomFruitY2 + self.appleSize:
-                        gameOver = True
+                        self.gameOver = True
 
                 if start_x > randomFruitX3 and start_x < randomFruitX3 + self.appleSize or start_x + self.block > randomFruitX3 and start_x + self.block < randomFruitX3 + self.appleSize:
                     if start_y > randomFruitY3 and start_y < randomFruitY3 + self.appleSize:
-                        gameOver = True
+                        self.gameOver = True
 
                 self.gameScore = snakeLength-1
             # initialising no. of frames per sec
