@@ -6,7 +6,11 @@ The code is under MIT license which is included in our repo. The art assets in t
 
 # How to Install and Run the Game
 Run Sugar on VirtualBox
+
 Press F3 to go to the main menu if stuck in journal page
+
 Click on the search bar and search for terminal
+
 run "git clone https://github.com/axk4545/hfoss-sugar-snake"
+
 run  sugar-activity snakeActivity.snakeActivity
