@@ -129,7 +129,7 @@ class gameClass:
     def snake(self, block, snakeList):
         # At some point, we may want to rotate the snake's body when it reaches
         # a part where the snake turns
-        body = pygame.transform.rotate(self.snakebody, 0)
+        snakebody = pygame.transform.rotate(self.snakebody, 0)
         tail = pygame.transform.rotate(self.snaketail, 0)
 
         if direction == "right":
@@ -149,8 +149,7 @@ class gameClass:
         # Will have to hamake it better and add the snake tail as well.
         self.screen.blit(head, (snakeList[-1][0], snakeList[-1][1]))
         for XnY in snakeList[:-1]:
-            # self.screen.blit(head, (snakeList[-1][0], snakeList[-1][1]))
-            pygame.draw.rect(self.screen, self.green, [XnY[0], XnY[1], block, block])
+            self.screen.blit(snakebody,(XnY[0], XnY[1]))
 
 
     def text_object(self, msg, color,size):
@@ -257,7 +256,7 @@ class gameClass:
                         #elif event.key == pygame.K_SPACE and self.paused == True:
                          #   set_paused(False)
 
-                if start_x >= pygame.display.Info().current_h or start_x < 0 or start_y >= pygame.display.Info().current_h or start_y < 0:
+                if start_x >= pygame.display.Info().current_w or start_x < 0 or start_y >= pygame.display.Info().current_h or start_y < 0:
                     self.gameOver = True
 
                 start_x += move_to_h
