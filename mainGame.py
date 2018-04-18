@@ -106,7 +106,7 @@ class gameClass:
     # function to print multiplication problem
     def problem(self, numberOne, numberTwo):
         text = self.smallfont.render(str(numberOne) + " X " + str(numberTwo) + " = ?", True, self.black)
-        self.screen.blit(text, [self.pygame.display.Info().current_w / 2, 2])
+        self.screen.blit(text, [pygame.display.Info().current_w / 2, 2])
 
     # function for putting the number label on the apple
     def putNumInApple(self, num, (x, y)):
