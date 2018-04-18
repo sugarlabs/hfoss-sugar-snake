@@ -56,12 +56,12 @@ class gameClass:
         assets = path.join(path.dirname(__file__), 'assets')
 
         # image loading
-        self.snakeimg = pygame.image.load(path.join(assets + '/snake.png'))
-        self.snakebody = pygame.image.load(path.join(assets + '/body.png'))
-        self.snaketail = pygame.image.load(path.join(assets + '/tail.png'))
-        self.gameicon = pygame.image.load(path.join(assets + '/gameicon.png'))
+        self.snakeimg = pygame.image.load(path.join(assets + '/snake-head.png'))
+        self.snakebody = pygame.image.load(path.join(assets + '/snake-body.png'))
+        self.snaketail = pygame.image.load(path.join(assets + '/snake-tail.png'))
         self.appleimg = pygame.image.load(path.join(assets + '/apple.png'))
         self.startScreen = pygame.image.load(path.join(assets + '/start-screen.png'))
+        self.endScreen = pygame.image.load(path.join(assets + '/end-screen.png'))
 
         # moving block size
         self.block = 20
@@ -86,7 +86,7 @@ class gameClass:
 
     # function to print score
     def printScore(self,score):
-        text = self.smallfont.render("Score : " + str(score), True, self.black)
+        text = self.medfont.render("Score : " + str(score), True, self.black)
         self.screen.blit(text, [2,2])
 
     # function for random apple generation
@@ -105,12 +105,12 @@ class gameClass:
 
     # function to print multiplication problem
     def problem(self, numberOne, numberTwo):
-        text = self.smallfont.render(str(numberOne) + " X " + str(numberTwo) + " = ?", True, self.black)
+        text = self.medfont.render(str(numberOne) + " X " + str(numberTwo) + " = ?", True, self.black)
         self.screen.blit(text, [pygame.display.Info().current_w / 2, 2])
 
     # function for putting the number label on the apple
     def putNumInApple(self, num, (x, y)):
-        label = self.smallfont.render(str(num), True, self.yellow)
+        label = self.medfont.render(str(num), True, self.black)
         self.screen.blit(label, [x, y])
 
     # score getter
@@ -229,9 +229,9 @@ class gameClass:
                 continue
             else:
                 if gameOver == True:
-                    self.screen.fill(self.white)
+                    self.screen.blit(self.endScreen,(0,0))
                     self.message_to_display("Game Over", self.red, -70, "large")
-                    text = self.smallfont.render("Your final score is : " + str(self.get_score()), True, self.black)
+                    text = self.medfont.render("Your final score is : " + str(self.get_score()), True, self.red)
                     self.screen.blit(text, [100,100])
                     pygame.display.update()
                     continue
