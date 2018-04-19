@@ -228,7 +228,7 @@ class gameClass:
                 pygame.display.update()
                 continue
             elif self.gameOver == True:
-                print("Game is over")
+                #print("Game is over")
                 self.screen.blit(self.endScreen,(0,0))
                 self.message_to_display("Game Over", self.red, -70, "large")
                 text = self.medfont.render("Your final score is : " + str(self.get_score()), True, self.red)
