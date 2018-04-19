@@ -134,15 +134,19 @@ class gameClass:
 
         if direction == "right":
             head = pygame.transform.rotate(self.snakeimg, 270)
+            snakebody = pygame.transform.rotate(self.snakebody, 270)
 
         if direction == "left":
             head = pygame.transform.rotate(self.snakeimg, 90)
+            snakebody = pygame.transform.rotate(self.snakebody, 90)
 
         if direction == "up":
             head = self.snakeimg
+            snakebody = self.snakebody
 
         if direction == "down":
             head = pygame.transform.rotate(self.snakeimg, 180)
+            snakebody = pygame.transform.rotate(self.snakebody, 180)
 
 
         # This method is just working, but not good.
@@ -224,7 +228,7 @@ class gameClass:
                 pygame.display.update()
                 continue
             elif self.gameOver == True:
-                print("Game is over")
+                #print("Game is over")
                 self.screen.blit(self.endScreen,(0,0))
                 self.message_to_display("Game Over", self.red, -70, "large")
                 text = self.medfont.render("Your final score is : " + str(self.get_score()), True, self.red)
