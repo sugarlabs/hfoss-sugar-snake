@@ -134,15 +134,19 @@ class gameClass:
 
         if direction == "right":
             head = pygame.transform.rotate(self.snakeimg, 270)
+            snakebody = pygame.transform.rotate(self.snakebody, 270)
 
         if direction == "left":
             head = pygame.transform.rotate(self.snakeimg, 90)
+            snakebody = pygame.transform.rotate(self.snakebody, 90)
 
         if direction == "up":
             head = self.snakeimg
+            snakebody = self.snakebody
 
         if direction == "down":
             head = pygame.transform.rotate(self.snakeimg, 180)
+            snakebody = pygame.transform.rotate(self.snakebody, 180)
 
 
         # This method is just working, but not good.
