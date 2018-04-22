@@ -179,7 +179,7 @@ class gameClass:
         self.screen.blit(self.startScreen,(0,0))
         myfont=self.largefont
         nlabel=myfont.render("Sugar Snake", 1, self.white)
-        dlabel=self.medfont.render("Press the play button to begin.", 1, self.white)
+        dlabel=self.medfont.render("Press the play button in the top left corner to begin.", 1, self.white)
         self.screen.blit(nlabel, (200,200))
         self.screen.blit(dlabel, (400,400))
         pygame.display.update()
