@@ -17,6 +17,8 @@ from gi.repository import GObject
 import sugargame.canvas
 import mainGame
 import sys
+import os
+import signal
 
 class snakeActivity(activity.Activity):
     def __init__(self, handle):
@@ -87,4 +89,11 @@ class snakeActivity(activity.Activity):
  
     def _play_cb(self, button):
         self.game.gameStarted = True
-        #self.game.gameOver = False
+        if self.game.gameOver == True:
+            self.game.gameOver = False
+            oldGame = os.getpid()
+            print(os.system("pwd"))
+            os.system("sugar-activity snakeActivity.snakeActivity")
+            pygame.display.quit()
+            pygame.quit()
+            sys.exit(0)
