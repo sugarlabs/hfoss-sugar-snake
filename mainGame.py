@@ -149,8 +149,6 @@ class gameClass:
             snakebody = pygame.transform.rotate(self.snakebody, 180)
 
 
-        # This method is just working, but not good.
-        # Will have to hamake it better and add the snake tail as well.
         self.screen.blit(head, (snakeList[-1][0], snakeList[-1][1]))
         for XnY in snakeList[:-1]:
             self.screen.blit(snakebody,(XnY[0], XnY[1]))
@@ -175,7 +173,26 @@ class gameClass:
         textRect.center = (pygame.display.Info().current_h/2), (pygame.display.Info().current_h/2) + y_displace
         self.screen.blit(textSurf, textRect)
 
-
+    def showStartScreen(self):
+        while Gtk.events_pending():
+                Gtk.main_iteration()
+        self.screen.blit(self.startScreen,(0,0))
+        myfont=self.largefont
+        nlabel=myfont.render("Sugar Snake", 1, self.white)
+        dlabel=self.medfont.render("Press the play button to begin.", 1, self.white)
+        self.screen.blit(nlabel, (200,200))
+        self.screen.blit(dlabel, (400,400))
+        pygame.display.update()
+    
+    def showGameoverScreen(self):
+        while Gtk.events_pending():
+                Gtk.main_iteration()
+        self.screen.blit(self.endScreen,(0,0))
+        self.message_to_display("Game Over", self.red, -70, "large")
+        text = self.medfont.render("Your final score is : " + str(self.get_score()), True, self.red)
+        self.screen.blit(text, [100,100])
+        pygame.display.update()
+        
     # game starts here
     def run(self):
         # global variable direction
@@ -219,22 +236,10 @@ class gameClass:
             while Gtk.events_pending():
                 Gtk.main_iteration()
             if self.gameStarted == False:
-                self.screen.blit(self.startScreen,(0,0))
-                myfont=self.largefont
-                nlabel=myfont.render("Sugar Snake", 1, self.white)
-                dlabel=self.medfont.render("Press the play button to begin.", 1, self.white)
-                self.screen.blit(nlabel, (200,200))
-                self.screen.blit(dlabel, (400,400))
-                pygame.display.update()
+                self.showStartScreen()
                 continue
             elif self.gameOver == True:
-                #print("Game is over")
-                self.screen.blit(self.endScreen,(0,0))
-                self.message_to_display("Game Over", self.red, -70, "large")
-                text = self.medfont.render("Your final score is : " + str(self.get_score()), True, self.red)
-                self.screen.blit(text, [100,100])
-                pygame.display.update()
-                continue
+                self.showGameoverScreen()
             else:
                 # Pump PyGame messages
                 for event in pygame.event.get():
