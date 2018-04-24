@@ -17,6 +17,10 @@ In the terminal run
 
     git clone https://github.com/axk4545/hfoss-sugar-snake
 
+Then cd into the root directory:
+
+    cd hfoss-sugar-snake
+
 To run the game run
 
     sugar-activity snakeActivity.snakeActivity
