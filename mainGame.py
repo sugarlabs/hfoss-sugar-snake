@@ -310,14 +310,14 @@ class gameClass:
                         randomFruitX1, randomFruitY1 = self.randomAppleGen()
                         randomFruitX2, randomFruitY2 = self.randomAppleGen()
                         randomFruitX3, randomFruitY3 = self.randomAppleGen()
-				        numberOne, numberTwo = self.randomMultGen()
+                        numberOne, numberTwo = self.randomMultGen()
                         snakeLength += 1
                     if start_y + self.block > randomFruitY and start_y + self.block < randomFruitY + self.appleSize:
                         randomFruitX, randomFruitY = self.randomAppleGen()
                         randomFruitX1, randomFruitY1 = self.randomAppleGen()
                         randomFruitX2, randomFruitY2 = self.randomAppleGen()
                         randomFruitX3, randomFruitY3 = self.randomAppleGen()
-					    numberOne, numberTwo = self.randomMultGen()
+                        numberOne, numberTwo = self.randomMultGen()
                         snakeLength += 1
 
                 if start_x > randomFruitX1 and start_x < randomFruitX1 + self.appleSize or start_x + self.block > randomFruitX1 and start_x + self.block < randomFruitX1 + self.appleSize:
