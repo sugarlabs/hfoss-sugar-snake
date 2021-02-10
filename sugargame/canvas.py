@@ -1,21 +1,41 @@
+#
+# Copyright (c) 2020 Wade Brainerd
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+
 import os
 from gi.repository import Gtk
-from gi.repository import GObject
 from gi.repository import GLib
 from sugar3.activity.activity import PREVIEW_SIZE
 import pygame
-import event
+import sugargame.event as event
 
 CANVAS = None
 
 
 class PygameCanvas(Gtk.EventBox):
-    def __init__(self, activity, pointer_hint=True,
-                 main=None, modules=[pygame]):
-        GObject.GObject.__init__(self)
+    def __init__(self, activity, main=None, modules=[pygame]):
+        Gtk.EventBox.__init__(self)
 
         global CANVAS
-        assert CANVAS == None, "Only one PygameCanvas can be created, ever."
+        assert CANVAS is None, "Only one PygameCanvas can be created, ever."
         CANVAS = self
 
         # Initialize Events translator before widget gets "realized".
@@ -70,7 +90,7 @@ class PygameCanvas(Gtk.EventBox):
             return None
 
         _tmp_dir = os.path.join(self._activity.get_activity_root(),
-            'tmp')
+                                'tmp')
         _file_path = os.path.join(_tmp_dir, 'preview.png')
 
         width = PREVIEW_SIZE[0]
@@ -78,7 +98,7 @@ class PygameCanvas(Gtk.EventBox):
         _surface = pygame.transform.scale(self._screen, (width, height))
         pygame.image.save(_surface, _file_path)
 
-        f = open(_file_path, 'r')
+        f = open(_file_path, 'rb')
         preview = f.read()
         f.close()
         os.remove(_file_path)
