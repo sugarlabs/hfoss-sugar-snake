@@ -202,7 +202,7 @@ class gameClass:
         direction = "right"
 
         # variable init
-        running = True
+        self.running = True
 
         # snake variables
         snakeList = []
@@ -231,112 +231,112 @@ class gameClass:
         move_to_v = 0
 
 
-        while running :
+        while self.running :
             # Pump GTK messages.
             while Gtk.events_pending():
                 Gtk.main_iteration()
-            if self.gameStarted == False:
+            if not self.running:
+                break
+
+            if self.gameStarted is False:
                 self.showStartScreen()
                 continue
-            elif self.gameOver == True:
+            elif self.gameOver is True:
                 self.showGameoverScreen()
-            else:
-                # Pump PyGame messages
-                if self.paused:
-                    for event in pygame.event.get():
-                        if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_SPACE:
-                               self.set_paused(not self.paused)
-                else:    
-                    for event in pygame.event.get():
-                        if event.type == pygame.KEYDOWN:
-                            if event.key == pygame.K_LEFT and move_to_h == 0:
-                                direction = "left"
-                                move_to_h = -self.block
-                                move_to_v = 0
-                            elif event.key == pygame.K_RIGHT and move_to_h == 0:
-                                direction = "right"
-                                move_to_h = self.block
-                                move_to_v = 0
-                            elif event.key == pygame.K_UP and move_to_v == 0:
-                                direction = "up"
-                                move_to_v = -self.block
-                                move_to_h = 0
-                            elif event.key == pygame.K_DOWN and move_to_v == 0:
-                                direction = "down"
-                                move_to_v = self.block
-                                move_to_h = 0
-                            elif event.key == pygame.K_SPACE:
-                                self.set_paused(True)
+                break
 
-                    if start_x >= pygame.display.Info().current_w or start_x < 0 or start_y >= pygame.display.Info().current_h or start_y < 0:
-                        self.gameOver = True
+            # Pump PyGame messages
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT and move_to_h == 0:
+                        direction = "left"
+                        move_to_h = -self.block
+                        move_to_v = 0
+                    elif event.key == pygame.K_RIGHT and move_to_h == 0:
+                        direction = "right"
+                        move_to_h = self.block
+                        move_to_v = 0
+                    elif event.key == pygame.K_UP and move_to_v == 0:
+                        direction = "up"
+                        move_to_v = -self.block
+                        move_to_h = 0
+                    elif event.key == pygame.K_DOWN and move_to_v == 0:
+                        direction = "down"
+                        move_to_v = self.block
+                        move_to_h = 0
+                    elif event.key == pygame.K_SPACE:
+                        self.set_paused(True)
 
-                    start_x += move_to_h
-                    start_y += move_to_v
+            if start_x >= pygame.display.Info().current_w or start_x < 0 or start_y >= pygame.display.Info().current_h or start_y < 0:
+                self.gameOver = True
 
-                    self.screen.fill(self.white)
-                    self.screen.blit(self.appleimg, (randomFruitX, randomFruitY))
-                    self.screen.blit(self.appleimg, (randomFruitX1, randomFruitY1))
-                    self.screen.blit(self.appleimg, (randomFruitX2, randomFruitY2))
-                    self.screen.blit(self.appleimg, (randomFruitX3, randomFruitY3))
+            start_x += move_to_h
+            start_y += move_to_v
 
-                    snakeHead = []
-                    snakeHead.append(start_x)
-                    snakeHead.append(start_y)
-                    snakeList.append(snakeHead)
+            self.screen.fill(self.white)
+            self.screen.blit(self.appleimg, (randomFruitX, randomFruitY))
+            self.screen.blit(self.appleimg, (randomFruitX1, randomFruitY1))
+            self.screen.blit(self.appleimg, (randomFruitX2, randomFruitY2))
+            self.screen.blit(self.appleimg, (randomFruitX3, randomFruitY3))
 
-                    if len(snakeList) > snakeLength:
-                        del snakeList[0]
+            snakeHead = []
+            snakeHead.append(start_x)
+            snakeHead.append(start_y)
+            snakeList.append(snakeHead)
 
-                    self.printScore(snakeLength - 1)
+            if len(snakeList) > snakeLength:
+                del snakeList[0]
 
-                    self.problem(numberOne, numberTwo)
+            self.printScore(snakeLength - 1)
 
-                    self.putNumInApple(numberOne * numberTwo, (randomFruitX, randomFruitY))
-                    self.putNumInApple(numberOne1 * numberTwo1, (randomFruitX1, randomFruitY1))
-                    self.putNumInApple(numberOne2 * numberTwo2, (randomFruitX2, randomFruitY2))
-                    self.putNumInApple(numberOne3 * numberTwo3, (randomFruitX3, randomFruitY3))
+            self.problem(numberOne, numberTwo)
 
+            self.putNumInApple(numberOne * numberTwo, (randomFruitX, randomFruitY))
+            self.putNumInApple(numberOne1 * numberTwo1, (randomFruitX1, randomFruitY1))
+            self.putNumInApple(numberOne2 * numberTwo2, (randomFruitX2, randomFruitY2))
+            self.putNumInApple(numberOne3 * numberTwo3, (randomFruitX3, randomFruitY3))
+
+            self.snake(self.block, snakeList)
+            pygame.display.update()
+
+            # to see if snake has eaten himself or not
+            for eachSegment in snakeList[:-1]:
+                if eachSegment == snakeHead:
                     self.snake(self.block, snakeList)
-                    pygame.display.update()
+                    pygame.time.delay(1000)
+                    self.gameOver = True
 
-                    # to see if snake has eaten himself or not
-                    for eachSegment in snakeList[:-1]:
-                        if eachSegment == snakeHead:
-                            self.snake(self.block, snakeList)
-                            pygame.time.delay(1000)
-                            self.gameOver = True
+            if start_x > randomFruitX and start_x < randomFruitX + self.appleSize or start_x + self.block > randomFruitX and start_x + self.block < randomFruitX + self.appleSize:
+                if start_y > randomFruitY and start_y < randomFruitY + self.appleSize:
+                    randomFruitX, randomFruitY = self.randomAppleGen()
+                    randomFruitX1, randomFruitY1 = self.randomAppleGen()
+                    randomFruitX2, randomFruitY2 = self.randomAppleGen()
+                    randomFruitX3, randomFruitY3 = self.randomAppleGen()
+                    numberOne, numberTwo = self.randomMultGen()
+                    snakeLength += 1
+                if start_y + self.block > randomFruitY and start_y + self.block < randomFruitY + self.appleSize:
+                    randomFruitX, randomFruitY = self.randomAppleGen()
+                    randomFruitX1, randomFruitY1 = self.randomAppleGen()
+                    randomFruitX2, randomFruitY2 = self.randomAppleGen()
+                    randomFruitX3, randomFruitY3 = self.randomAppleGen()
+                    numberOne, numberTwo = self.randomMultGen()
+                    snakeLength += 1
 
-                    if start_x > randomFruitX and start_x < randomFruitX + self.appleSize or start_x + self.block > randomFruitX and start_x + self.block < randomFruitX + self.appleSize:
-                        if start_y > randomFruitY and start_y < randomFruitY + self.appleSize:
-                            randomFruitX, randomFruitY = self.randomAppleGen()
-                            randomFruitX1, randomFruitY1 = self.randomAppleGen()
-                            randomFruitX2, randomFruitY2 = self.randomAppleGen()
-                            randomFruitX3, randomFruitY3 = self.randomAppleGen()
-                            numberOne, numberTwo = self.randomMultGen()
-                            snakeLength += 1
-                        if start_y + self.block > randomFruitY and start_y + self.block < randomFruitY + self.appleSize:
-                            randomFruitX, randomFruitY = self.randomAppleGen()
-                            randomFruitX1, randomFruitY1 = self.randomAppleGen()
-                            randomFruitX2, randomFruitY2 = self.randomAppleGen()
-                            randomFruitX3, randomFruitY3 = self.randomAppleGen()
-                            numberOne, numberTwo = self.randomMultGen()
-                            snakeLength += 1
+            if start_x > randomFruitX1 and start_x < randomFruitX1 + self.appleSize or start_x + self.block > randomFruitX1 and start_x + self.block < randomFruitX1 + self.appleSize:
+                if start_y > randomFruitY1 and start_y < randomFruitY1 + self.appleSize:
+                    self.gameOver = True
 
-                    if start_x > randomFruitX1 and start_x < randomFruitX1 + self.appleSize or start_x + self.block > randomFruitX1 and start_x + self.block < randomFruitX1 + self.appleSize:
-                        if start_y > randomFruitY1 and start_y < randomFruitY1 + self.appleSize:
-                            self.gameOver = True
+            if start_x > randomFruitX2 and start_x < randomFruitX2 + self.appleSize or start_x + self.block > randomFruitX2 and start_x + self.block < randomFruitX2 + self.appleSize:
+                if start_y > randomFruitY2 and start_y < randomFruitY2 + self.appleSize:
+                    self.gameOver = True
 
-                    if start_x > randomFruitX2 and start_x < randomFruitX2 + self.appleSize or start_x + self.block > randomFruitX2 and start_x + self.block < randomFruitX2 + self.appleSize:
-                        if start_y > randomFruitY2 and start_y < randomFruitY2 + self.appleSize:
-                            self.gameOver = True
+            if start_x > randomFruitX3 and start_x < randomFruitX3 + self.appleSize or start_x + self.block > randomFruitX3 and start_x + self.block < randomFruitX3 + self.appleSize:
+                if start_y > randomFruitY3 and start_y < randomFruitY3 + self.appleSize:
+                    self.gameOver = True
 
-                    if start_x > randomFruitX3 and start_x < randomFruitX3 + self.appleSize or start_x + self.block > randomFruitX3 and start_x + self.block < randomFruitX3 + self.appleSize:
-                        if start_y > randomFruitY3 and start_y < randomFruitY3 + self.appleSize:
-                            self.gameOver = True
-
-                    self.gameScore = snakeLength-1
+            self.gameScore = snakeLength-1
             # initialising no. of frames per sec
             self.clock.tick(10)
 
